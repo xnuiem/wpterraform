@@ -1,0 +1,27 @@
+#cloud-config
+timezone: America/Chicago
+
+runcmd:
+  - sudo apt-get update
+  - sudo apt-get upgrade -y
+  - sudo apt-get install -y php apache2 mysql-client php-mysql php-gd php-common php-cli php-opcache php-curl php-ftp php-fileinfo php-date php-imagick php-json php-mbstring php-mysqli php-pdo-mysql php-redis php-zip php-xml
+  - sudo cp /home/ubuntu/wordpress.conf /etc/apache2/sites-available/wordpress.conf
+  - sudo a2ensite wordpress
+  - sudo a2enmod rewrite
+  - sudo a2dissite 000-default
+  - sudo service apache2 reload
+  - sudo service apache2 restart
+  - sudo rm -rf /var/www/html/index.html
+  - cd ~
+  - sudo curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar
+  - sudo chmod +x wp-cli.phar
+  - sudo mv wp-cli.phar /usr/local/bin/wp-cli
+  - cd /var/www/html
+  - sudo wp-cli core download --allow-root
+  - sudo wp-cli config create --dbname=${RDS_DB_NAME} --dbuser=${RDS_DB_USERNAME} --dbpass=${RDS_DB_PASSWORD} --locale=en_DB --dbhost=${RDS_HOST} --dbprefix=${DB_PREFIX} --allow-root
+  - sudo wp-cli db create --allow-root
+  - sudo wp-cli core install --url=${TLD} --title=${WP_NAME} --admin_user=${ADMIN_USERNAME} --admin_password=${ADMIN_PASSWORD} --admin_email=${ADMIN_EMAIL} --allow-root
+  - cd wp-content/plugins
+  - sudo rm -rf hello.php
+
+final_message: "Wordpress Install Complete"
