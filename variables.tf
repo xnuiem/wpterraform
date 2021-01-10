@@ -29,6 +29,7 @@ variable "tags" {
 variable "OWNER_TAG" {
   description = "The Owner tag for resources"
   type = string
+  default = "WP Terraform"
 }
 
 variable "DEFAULT_ADMIN_IP" {
@@ -97,11 +98,13 @@ variable "DB_NAME" {
 variable "DB_USERNAME" {
   description = "Database User Name"
   type = string
+  default = "wp_db_user"
 }
 
 variable "DB_PASSWORD" {
   description = "Database Password"
   type = string
+  default = "S0m3P@ssW0rd"
 }
 
 variable "DB_SIZE" {
@@ -125,6 +128,7 @@ variable "PARAMETER_GROUP" {
 variable "AMI" {
   description = "ID of AMI to use"
   type = string
+  default = "ami-00831fc7c1e3ddc60"
 }
 
 variable "PUBLIC_IP" {
@@ -178,10 +182,11 @@ variable "ADMIN_PASSWORD" {
 variable "DB_PREFIX" {
   description = "The table prefix for the database"
   type = string
-  default = "wp_"
+  default = "wpt_"
 }
 
 variable "PEM_FILE_NAME" {
   type = string
+  description = "Name of the PEM file to login to the EC2 Instance.  Should already be created and placed in the top directory of the terraform script."
   description = "Name of the PEM file to login to the EC2 Instance.  Should already be created and placed in the top directory of the terraform script."
 }
